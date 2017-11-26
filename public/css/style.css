@@ -1,0 +1,19 @@
+html,
+body,
+ul,
+ol {
+  margin: 0;
+  padding: 0; }
+
+ol.no-style,
+ul.no-style {
+  list-style: none; }
+
+body, a, input, textarea, select {
+  font-family: Arial, sans-serif; }
+
+body, input, textarea, select {
+  color: #1D1D1D; }
+
+body {
+  background-color: #FFFFFF; }
