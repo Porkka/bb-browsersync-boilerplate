@@ -28,7 +28,7 @@ gulp.task('minify-js', function () {
 });
 // Gulp task for Sass
 gulp.task('sass', function () {
-  return .pipe(sass())                   // Action
+  return gulp.pipe(sass())                   // Action
     .on('error', showError)              // Instead of exiting on error, perform showError function
     .pipe(gulp.dest('./public/css'))     // Destination folder
     .pipe(bs.reload({stream: true}));    // Reload browser
