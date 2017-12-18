@@ -30,7 +30,7 @@ Here are the files you would modify. The same files are then taken trought the p
 ./src/
   js/
     app.js
-  scss/
+  sass/
     _reset.scss
     _variables.scss
     style.scss
