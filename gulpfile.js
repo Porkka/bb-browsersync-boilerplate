@@ -2,7 +2,8 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     bs = require('browser-sync').create(),
-    uglify = require("gulp-uglify");
+    uglify = require('gulp-uglify'),
+    wait = require('gulp-wait');
 
 // On error, output it to command line / terminal
 function showError(error) {
@@ -22,21 +23,24 @@ gulp.task('browser-sync', function() {
 });
 // Gulp task for minifying js files
 gulp.task('minify-js', function () {
-  return gulp.pipe(uglify())           // Action
-  .on('error', showError)              // Instead of exiting on error, perform showError function
-  .pipe(gulp.dest('./public/js'));     // Destination folder
+  return gulp.src('src/js/*.js').pipe(uglify())  // Action
+  .on('error', showError)                        // Instead of exiting on error, perform showError function
+  .pipe(gulp.dest('./public/js'))                // Destination folder
+  .pipe(bs.reload({stream: true}));              // Reload browser
 });
 // Gulp task for Sass
 gulp.task('sass', function () {
-  return gulp.pipe(sass())                   // Action
-    .on('error', showError)              // Instead of exiting on error, perform showError function
-    .pipe(gulp.dest('./public/css'))     // Destination folder
-    .pipe(bs.reload({stream: true}));    // Reload browser
+  return gulp.src('src/sass/*.scss')
+  .pipe(wait(200))                   // Fix for imported sass save
+  .pipe(sass())                      // Action
+  .on('error', showError)            // Instead of exiting on error, perform showError function
+  .pipe(gulp.dest('./public/css'))   // Destination folder
+  .pipe(bs.reload({stream: true}));  // Reload browser
 });
 // The watch task to summarize it all
 gulp.task('watch', [ 'browser-sync' ], function () {
   // Watch changes for...
   gulp.watch('src/js/*.js', [ 'minify-js' ]);       // ...all .js files in ./src/js 
-  gulp.watch('src/scss/*.scss', [ 'sass' ]);        // ...all .scss files in ./src/scss 
+  gulp.watch('src/sass/*.scss', [ 'sass' ]);        // ...all .scss files in ./src/scss 
   gulp.watch('index.html').on('change', bs.reload); // ...index.html at the root (./index.html)
 });
